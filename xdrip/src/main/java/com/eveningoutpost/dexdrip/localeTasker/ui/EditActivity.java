@@ -122,13 +122,13 @@ public final class EditActivity extends AbstractPluginActivity
      */
     /* package */static String generateBlurb(final Context context, final String message)
     {
-        final int maxBlurbLength =
-                context.getResources().getInteger(R.integer.twofortyfouram_locale_maximum_blurb_length);
+//        final int maxBlurbLength =
+//                context.getResources().getInteger(R.integer.twofortyfouram_locale_maximum_blurb_length);
 
-        if (message.length() > maxBlurbLength)
-        {
-            return message.substring(0, maxBlurbLength);
-        }
+//        if (message.length() > maxBlurbLength)
+//        {
+//            return message.substring(0, maxBlurbLength);
+//        }
 
         return message;
     }

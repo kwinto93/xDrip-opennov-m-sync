@@ -86,7 +86,7 @@ public abstract class AbstractPluginActivity extends Activity
     {
         super.onCreateOptionsMenu(menu);
 
-        getMenuInflater().inflate(R.menu.twofortyfouram_locale_help_save_dontsave, menu);
+//        getMenuInflater().inflate(R.menu.twofortyfouram_locale_help_save_dontsave, menu);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
         {
@@ -139,22 +139,22 @@ public abstract class AbstractPluginActivity extends Activity
     {
         final int id = item.getItemId();
 
-        if (android.R.id.home == id)
-        {
-            finish();
-            return true;
-        }
-        else if (R.id.twofortyfouram_locale_menu_dontsave == id)
-        {
-            mIsCancelled = true;
-            finish();
-            return true;
-        }
-        else if (R.id.twofortyfouram_locale_menu_save == id)
-        {
-            finish();
-            return true;
-        }
+//        if (android.R.id.home == id)
+//        {
+//            finish();
+//            return true;
+//        }
+//        else if (R.id.twofortyfouram_locale_menu_dontsave == id)
+//        {
+//            mIsCancelled = true;
+//            finish();
+//            return true;
+//        }
+//        else if (R.id.twofortyfouram_locale_menu_save == id)
+//        {
+//            finish();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

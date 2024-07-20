@@ -1557,7 +1557,7 @@ public class Reminders extends ActivityWithRecycler implements SensorEventListen
 
 
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                int margin = (int) activity.getResources().getDimension(R.dimen.button_margin);
+                int margin = 0;
                 params.setMargins(margin, margin, margin, margin);
                 params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);

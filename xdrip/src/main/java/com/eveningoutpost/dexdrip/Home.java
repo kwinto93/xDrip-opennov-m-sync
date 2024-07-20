@@ -2336,20 +2336,20 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
 
     private long getButtonHours(View v) {
         long this_button_hours = 3;
-        switch (v.getId()) {
-            case R.id.hourbutton3:
-                this_button_hours = 3;
-                break;
-            case R.id.hourbutton6:
-                this_button_hours = 6;
-                break;
-            case R.id.hourbutton12:
-                this_button_hours = 12;
-                break;
-            case R.id.hourbutton24:
-                this_button_hours = 24;
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.hourbutton3:
+//                this_button_hours = 3;
+//                break;
+//            case R.id.hourbutton6:
+//                this_button_hours = 6;
+//                break;
+//            case R.id.hourbutton12:
+//                this_button_hours = 12;
+//                break;
+//            case R.id.hourbutton24:
+//                this_button_hours = 24;
+//                break;
+//        }
         return this_button_hours;
     }
 

@@ -69,6 +69,7 @@ def getLocalProperty(String propertyName) {
 }
 
 android {
+    namespace 'com.eveningoutpost.dexdrip'
     compileSdk 34
 
 
@@ -80,7 +81,7 @@ android {
                 // changes to databinding libraries can apparently result in nasty bugs on some handsets
                 // the following checks that databinding dependencies are not changed from the tested configuration
                 // 2.3.0 and 1.3.1 are from me.tatarka.bindingcollectionadapter2
-                if (!["3.1.4", "2.3.0", "1.3.1", "3.4.3", "3.6.4", "7.4.2"].contains(details.target.version)) {
+                if (!["3.1.4", "2.3.0", "1.3.1", "3.4.3", "3.6.4", "7.4.2", "8.1.1"].contains(details.target.version)) {
                     throw new GradleException("Untested databinding version: " + details.requested.group + " " + details.requested.name + "- " + details.requested.version + " - " + details.target.version)
                 }
             }
@@ -168,8 +169,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     dataBinding {
@@ -230,6 +231,10 @@ android {
             // the defaultConfig block instead. You still need to create this flavor.
             // Otherwise, all variants use the "dev" flavor configurations.
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
 }
