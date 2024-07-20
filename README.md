@@ -1,3 +1,31 @@
+# Fork description
+
+## Problems
+
+- xDrip seems to not reading opennov automatically - you need to have the app opened in foreground.
+- Diabetes M has a nightscout integration but for some reason I am unable to make it work, but xDrip works properly with the same server.
+
+## Goals
+
+- Allows xDrip to collect opennov in the background.
+- Auto-sync xDrip's opennov to Diabetes M <https://github.com/sirmamedical/diabetes-m-addon-example> without the nightscout server.
+
+## Current status
+
+| Is it done?           | Description                             | Note            |
+|-----------------------|-----------------------------------------|-----------------|
+| :white_square_button: | opennov reading in the background       | in progress     |
+| :white_square_button: | auto-sync to Diabetes M as a new entry  | tbd             |
+| :white_square_button: | merge with the last entry in Diabetes M | is it possible? |
+
+## Disclaimer
+
+This fork is mostly to fit my needs and requirements, but since it may help also you, I'm sharing it publicly.
+
+You can use any code available here under the same license as the original project, so sadly GPLv3.
+
+# / BELOW ORIGINAL README /
+
 # Nightscout xDrip+
 > Enhanced personal research version of xDrip
 
