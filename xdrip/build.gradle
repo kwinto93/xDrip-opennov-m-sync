@@ -9,7 +9,7 @@ buildscript {
         }
     }
 }
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 //apply from: 'token-replace.gradle'
 apply from: '../common.gradle'
 apply plugin: 'kotlin-android'
@@ -118,13 +118,13 @@ android {
     // But for release builds, it's okay. So the following script iterates through
     // all the known variants, finds those that are "release" build types, and
     // changes those properties to something dynamic.
-    applicationVariants.all { variant ->
-        if (variant.buildType.name == "release") {
-            variant.outputs.each { output ->
-                output.versionNameOverride = generateVersionName()
-            }
-        }
-    }
+//    applicationVariants.all { variant ->
+//        if (variant.buildType.name == "release") {
+//            variant.outputs.each { output ->
+//                output.versionNameOverride = generateVersionName()
+//            }
+//        }
+//    }
 
     testOptions {
         animationsDisabled = true
@@ -180,7 +180,6 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro'
         }
