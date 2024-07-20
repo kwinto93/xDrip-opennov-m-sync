@@ -1,4 +1,4 @@
-include ':app'
+include ':xdrip'
 include ':localeapi'
 include ':libkeks'
 include ':wear'
