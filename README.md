@@ -12,11 +12,11 @@
 
 ## Current status
 
-| Is it done?           | Description                             | Note            |
-|-----------------------|-----------------------------------------|-----------------|
-| :white_square_button: | opennov reading in the background       | in progress     |
-| :white_square_button: | auto-sync to Diabetes M as a new entry  | tbd             |
-| :white_square_button: | merge with the last entry in Diabetes M | is it possible? |
+| Is it done?           | Description                             | Note                                                                                                                 |
+|-----------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| :white_check_mark:    | opennov reading in the background       | scanning opennov opens system window to choose xdrip, sadly I don't see a way to fully automate it in the background |
+| :white_square_button: | auto-sync to Diabetes M as a new entry  | tbd                                                                                                                  |
+| :white_square_button: | merge with the last entry in Diabetes M | is it possible?                                                                                                      |
 
 ## Disclaimer
 
