@@ -75,6 +75,7 @@ import com.eveningoutpost.dexdrip.g5model.DexTimeKeeper;
 import com.eveningoutpost.dexdrip.g5model.Ob1G5StateMachine;
 import com.eveningoutpost.dexdrip.g5model.SensorDays;
 import com.eveningoutpost.dexdrip.importedlibraries.usbserial.util.HexDump;
+import com.eveningoutpost.dexdrip.insulin.opennov.Options;
 import com.eveningoutpost.dexdrip.models.ActiveBgAlert;
 import com.eveningoutpost.dexdrip.models.ActiveBluetoothDevice;
 import com.eveningoutpost.dexdrip.models.BgReading;
@@ -2466,7 +2467,7 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
         }
         if (collector.equals(DexCollectionType.Disabled)) {
             notificationText.append(getString(R.string.__data_source_disabled));
-            if (!Experience.gotData()) {
+            if (!Experience.gotData() && !Options.isEnabled()) {
                 // TODO should this move to Experience::processSteps ?
                 final Activity activity = this;
                 JoH.runOnUiThreadDelayed(() -> {
