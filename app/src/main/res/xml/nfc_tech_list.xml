@@ -2,4 +2,10 @@
     <tech-list>
         <tech>android.nfc.tech.NfcV</tech>
     </tech-list>
+
+    <tech-list>
+        <tech>android.nfc.tech.IsoDep</tech>
+        <tech>android.nfc.tech.NfcA</tech>
+        <tech>android.nfc.tech.Ndef</tech>
+    </tech-list>
 </resources>
