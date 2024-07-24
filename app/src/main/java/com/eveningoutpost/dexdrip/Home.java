@@ -70,6 +70,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eveningoutpost.dexdrip.diabetesm.DiabetesmApi;
 import com.eveningoutpost.dexdrip.g5model.DexSyncKeeper;
 import com.eveningoutpost.dexdrip.g5model.DexTimeKeeper;
 import com.eveningoutpost.dexdrip.g5model.Ob1G5StateMachine;
@@ -1727,6 +1728,10 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
+            case DiabetesmApi.REQUEST_CODE:
+                DiabetesmApi.Companion.create().onActivityResult(this, resultCode, data);
+                break;
+
             case REQ_CODE_SPEECH_INPUT:
 
                 if (resultCode == RESULT_OK && null != data) {
@@ -1935,6 +1940,14 @@ public class Home extends ActivityWithMenu implements ActivityCompat.OnRequestPe
             NightscoutUploader.launchDownloadRest();
             Pendiq.immortality(); // Experimental testing phase
         });
+
+        if (Options.isEnabled()) {
+            final DiabetesmApi diabetesMApi = DiabetesmApi.Companion.create();
+            if (diabetesMApi.checkStatus(this)
+                    && !diabetesMApi.isAuthenticated(this)) {
+                diabetesMApi.authenticate(this);
+            }
+        }
     }
 
     private void checkWifiSleepPolicy() {

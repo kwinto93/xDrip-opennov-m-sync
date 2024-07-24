@@ -6,6 +6,7 @@ import static com.eveningoutpost.dexdrip.insulin.opennov.Options.playSounds;
 import static com.eveningoutpost.dexdrip.insulin.opennov.Options.removePrimingDoses;
 
 import com.eveningoutpost.dexdrip.Home;
+import com.eveningoutpost.dexdrip.diabetesm.DiabetesmApi;
 import com.eveningoutpost.dexdrip.models.InsulinInjection;
 import com.eveningoutpost.dexdrip.models.JoH;
 import com.eveningoutpost.dexdrip.models.Treatments;
@@ -50,6 +51,7 @@ public class SaveCompleted implements ICompleted {
         Boolean knownPen = null;
         boolean newData = false;
         val doses = msg.getContext().eventReport.doses;
+        final DiabetesmApi diabetesmApi = DiabetesmApi.Companion.create();
         for (val dose : doses) {
             if (dose.isValid()) {
                 if (msSince(dose.absoluteTime) < Constants.WEEK_IN_MS) {
@@ -76,6 +78,16 @@ public class SaveCompleted implements ICompleted {
                         if (trackPens) {
                             insulinType = Treatments.convertLegacyDoseToInjectionListByName(pens.getPenTypeBySerial(serial), dose.units);
                         }
+
+                        if (diabetesmApi.checkStatus(xdrip.getAppContext())
+                                && diabetesmApi.isAuthenticated(xdrip.getAppContext())) {
+                            diabetesmApi.pushInsulin(
+                                    xdrip.getAppContext(),
+                                    dose.units,
+                                    dose.absoluteTime
+                            );
+                        }
+
                         val treatment = Treatments.create(0, dose.units, insulinType, dose.absoluteTime, uuid);
                         if (treatment != null) {
                             treatment.enteredBy = MARKER + " @ " + JoH.dateTimeText(tsl());

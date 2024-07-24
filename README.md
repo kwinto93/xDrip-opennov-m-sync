@@ -12,11 +12,12 @@
 
 ## Current status
 
-| Is it done?           | Description                             | Note                                                                                                                 |
-|-----------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| :white_check_mark:    | opennov reading in the background       | scanning opennov opens system window to choose xdrip, sadly I don't see a way to fully automate it in the background |
-| :white_square_button: | auto-sync to Diabetes M as a new entry  | tbd                                                                                                                  |
-| :white_square_button: | merge with the last entry in Diabetes M | is it possible?                                                                                                      |
+| Is it done?            | Description                             | Note                                                                                                                                            |
+|------------------------|-----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| :white_check_mark:     | opennov reading in the background       | scanning opennov opens system window to choose xdrip, sadly I don't see a way to fully automate it in the background                            |
+| :white_check_mark:     | auto-sync to Diabetes M as a new entry  | every new entry in xDrip is sync to Diabetes: M; hard to say how well will work DST time for a dose timestamp                                   |
+| :red_circle:           | merge with the last entry in Diabetes M | is it possible?; probably not, no API for removing entry in Diabetes: M, and it doesn't seem to merge them automatically either                 |
+| :white_square_button:  | upgrade target and compile SDK          | now, you see a warning that you are trying to install app compiled for very old API; also some things like flatDirs are not recommended anymore |
 
 ## Disclaimer
 
