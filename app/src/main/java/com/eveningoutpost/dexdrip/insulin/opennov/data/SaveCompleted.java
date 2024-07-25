@@ -21,6 +21,7 @@ import com.eveningoutpost.dexdrip.insulin.opennov.mt.InsulinDose;
 import com.eveningoutpost.dexdrip.utils.jobs.BackgroundQueue;
 import com.eveningoutpost.dexdrip.xdrip;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,8 +51,10 @@ public class SaveCompleted implements ICompleted {
         }
         Boolean knownPen = null;
         boolean newData = false;
+
         val doses = msg.getContext().eventReport.doses;
-        final DiabetesmApi diabetesmApi = DiabetesmApi.Companion.create();
+        val validDosesForDiabetes = new ArrayList<InsulinDose>();
+
         for (val dose : doses) {
             if (dose.isValid()) {
                 if (msSince(dose.absoluteTime) < Constants.WEEK_IN_MS) {
@@ -79,17 +82,9 @@ public class SaveCompleted implements ICompleted {
                             insulinType = Treatments.convertLegacyDoseToInjectionListByName(pens.getPenTypeBySerial(serial), dose.units);
                         }
 
-                        if (diabetesmApi.checkStatus(xdrip.getAppContext())
-                                && diabetesmApi.isAuthenticated(xdrip.getAppContext())) {
-                            diabetesmApi.pushInsulin(
-                                    xdrip.getAppContext(),
-                                    dose.units,
-                                    dose.absoluteTime
-                            );
-                        }
-
                         val treatment = Treatments.create(0, dose.units, insulinType, dose.absoluteTime, uuid);
                         if (treatment != null) {
+                            validDosesForDiabetes.add(dose);
                             treatment.enteredBy = MARKER + " @ " + JoH.dateTimeText(tsl());
                             treatment.notes = NOTE_PREFIX + " " + serial + "\n" + msg.getContext().model.getModel(); // must be same for each dose for a specific pen
                             treatment.save();
@@ -110,6 +105,20 @@ public class SaveCompleted implements ICompleted {
                 UserError.Log.d(TAG, "Discarding invalid dose: " + dose.toJson());
             }
         }
+
+        final DiabetesmApi diabetesmApi = DiabetesmApi.Companion.create();
+        if (diabetesmApi.checkStatus(xdrip.getAppContext())
+                && diabetesmApi.isAuthenticated(xdrip.getAppContext())) {
+            final long primingTimeWindowMillis =
+                    Options.removePrimingDoses() ?
+                            (long) (Constants.MINUTE_IN_MS * Options.primingMinutes()) : 0L;
+            diabetesmApi.pushWithoutPrimingDoses(
+                    xdrip.getAppContext(),
+                    validDosesForDiabetes,
+                    primingTimeWindowMillis
+            );
+        }
+
         if (newData) {
             Home.staticRefreshBGChartsOnIdle();
         }

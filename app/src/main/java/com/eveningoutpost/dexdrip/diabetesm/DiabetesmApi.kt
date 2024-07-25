@@ -8,12 +8,17 @@ import com.diabetesm.addons.api.DiabetesAppConnection
 import com.diabetesm.addons.api.DiabetesAppConnection.DiabetesMCheck
 import com.diabetesm.addons.api.dto.LogEntry
 import com.eveningoutpost.dexdrip.diabetesm.DiabetesmApi.Companion.REQUEST_CODE
+import com.eveningoutpost.dexdrip.insulin.opennov.mt.InsulinDose
 
 interface DiabetesmApi {
 
     fun checkStatus(context: Context): Boolean
 
-    fun pushInsulin(context: Context, dose: Double, dateTime: Long)
+    fun pushWithoutPrimingDoses(
+        context: Context,
+        doses: List<InsulinDose>,
+        primingDoseTimeWindowMillis: Long,
+    )
 
     fun authenticate(activity: Activity)
 
@@ -46,23 +51,44 @@ private class DiabetesmApiImpl : DiabetesmApi {
             }
         }
 
-    override fun pushInsulin(context: Context, dose: Double, dateTime: Long) {
-        DiabetesAppConnection(context)
-            .pushData(
-                listOf(
-                    LogEntry().apply {
-                        this.dateTime = dateTime
-                        this.bolusInsulin = dose.toFloat()
-                        this.note = "Automatically pushed by xDrip+"
-                    }
-                )
-            ) {
-                val result = it.getString(DiabetesAppConnection.RESULT_KEY, "")
-                if (result.equals(DiabetesAppConnection.RESULT_UNAUTHORIZED)) {
-                    Toast.makeText(context, "Unauthorized", Toast.LENGTH_LONG).show()
+    override fun pushWithoutPrimingDoses(
+        context: Context,
+        doses: List<InsulinDose>,
+        primingDoseTimeWindowMillis: Long,
+    ) {
+        doses
+            .sortedByDescending { it.absoluteTime }
+            .fold(emptyList<InsulinDose>()) { acc, dose ->
+                if (acc.isEmpty() ||
+                    acc.last().absoluteTime - dose.absoluteTime >= primingDoseTimeWindowMillis
+                ) {
+                    acc + dose
                 } else {
-                    Toast.makeText(context, "Pushed to Diabetes:M", Toast.LENGTH_LONG).show()
+                    acc
                 }
+            }
+            .let { filteredDoses ->
+                DiabetesAppConnection(context)
+                    .pushData(
+                        filteredDoses.map {
+                            LogEntry().apply {
+                                this.dateTime = it.absoluteTime
+                                this.bolusInsulin = it.units.toFloat()
+                                this.note = "Automatically pushed by xDrip+"
+                            }
+                        }
+                    ) {
+                        val result = it.getString(DiabetesAppConnection.RESULT_KEY, "")
+                        if (result.equals(DiabetesAppConnection.RESULT_UNAUTHORIZED)) {
+                            Toast
+                                .makeText(context, "Unauthorized", Toast.LENGTH_LONG)
+                                .show()
+                        } else {
+                            Toast
+                                .makeText(context, "Pushed to Diabetes:M", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
             }
     }
 
