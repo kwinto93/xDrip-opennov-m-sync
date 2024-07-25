@@ -9,6 +9,7 @@ import com.diabetesm.addons.api.DiabetesAppConnection.DiabetesMCheck
 import com.diabetesm.addons.api.dto.LogEntry
 import com.eveningoutpost.dexdrip.diabetesm.DiabetesmApi.Companion.REQUEST_CODE
 import com.eveningoutpost.dexdrip.insulin.opennov.mt.InsulinDose
+import com.eveningoutpost.dexdrip.models.UserError
 
 interface DiabetesmApi {
 
@@ -38,13 +39,11 @@ private class DiabetesmApiImpl : DiabetesmApi {
         DiabetesAppConnection(context).let { diaConnection ->
             val checkStatus = diaConnection.checkDiabetesMApp()
             if (checkStatus != DiabetesMCheck.OK) {
-                val message =
-                    if (checkStatus == DiabetesMCheck.NOT_FOUND) {
-                        "Missing Diabetes:M app!"
-                    } else {
-                        "Incompatible Diabetes:M version. Must be 5.0.5 or above!"
-                    }
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                if (checkStatus == DiabetesMCheck.NOT_FOUND) {
+                    UserError.Log.e(TAG, "Missing Diabetes:M app!")
+                } else {
+                    UserError.Log.e(TAG, "Diabetes:M version must be 5.0.5 or above!")
+                }
                 false
             } else {
                 true
@@ -80,13 +79,9 @@ private class DiabetesmApiImpl : DiabetesmApi {
                     ) {
                         val result = it.getString(DiabetesAppConnection.RESULT_KEY, "")
                         if (result.equals(DiabetesAppConnection.RESULT_UNAUTHORIZED)) {
-                            Toast
-                                .makeText(context, "Unauthorized", Toast.LENGTH_LONG)
-                                .show()
+                            UserError.Log.e(TAG, "Push failed: $result")
                         } else {
-                            Toast
-                                .makeText(context, "Pushed to Diabetes:M", Toast.LENGTH_LONG)
-                                .show()
+                            UserError.Log.i(TAG, "Push succeeded: $result")
                         }
                     }
             }
@@ -120,5 +115,9 @@ private class DiabetesmApiImpl : DiabetesmApi {
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "DiabetesmApi"
     }
 }
