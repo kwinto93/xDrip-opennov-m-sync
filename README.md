@@ -12,16 +12,22 @@
 
 ## Current status
 
-| Is it done?           | Description                             | Note                                                                                                                                                                             |
-|-----------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| :white_check_mark:    | opennov reading in the background       | scanning opennov opens system window to choose xdrip, sadly I don't see a way to fully automate it in the background                                                             |
-| :white_check_mark:    | auto-sync to Diabetes M as a new entry  | every new entry in xDrip is sync to Diabetes: M; hard to say how well will work DST time for a dose timestamp                                                                    |
-| :yellow_circle:       | merge with the last entry in Diabetes M | is it possible?; probably not, no API for removing entry in Diabetes: M, but sometimes they are merged together if there is a small gap between glucose reading and insulin dose |
-| :white_square_button: | upgrade target and compile SDK          | now, you see a warning that you are trying to install app compiled for very old API; also some things like flatDirs are not recommended anymore                                  |
+| Is it done?            | Description                             | Note                                                                                                                                                                             |
+|------------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :white_check_mark:     | opennov reading in the background       | scanning opennov opens system window to choose xdrip, sadly I don't see a way to fully automate it in the background                                                             |
+| :white_check_mark:     | auto-sync to Diabetes M as a new entry  | every new entry in xDrip is sync to Diabetes: M; hard to say how well will work DST time for a dose timestamp                                                                    |
+| :yellow_circle:        | merge with the last entry in Diabetes M | is it possible?; probably not, no API for removing entry in Diabetes: M, but sometimes they are merged together if there is a small gap between glucose reading and insulin dose |
+| :white_check_mark:     | support for priming dose set in xDrip   | priming dose setting is respected when syncing to Diabetes M                                                                                                                     |
+| :white_square_button:  | upgrade target and compile SDK          | now, you see a warning that you are trying to install app compiled for very old API; also some things like flatDirs are not recommended anymore                                  |
+| :white_square_button:  | DST timezone change support             | verify whether the syncing to Diabetes M are working correctly for DST changes                                                                                                   |
 
 ## Disclaimer
 
 This fork is mostly to fit my needs and requirements, but since it may help also you, I'm sharing it publicly.
+
+**No Android APP builds will be shared. You need to clone and build the app at your own risk, so you are taking the full responsibility. There is no warranty.
+This fork may not work with any of CGMs. It is not tested. Especially, planned upgrade of target SDK level may break many features.
+Always make decisions about your treatment together with health care professionals.**
 
 You can use any code available here under the same license as the original project, so sadly GPLv3.
 
